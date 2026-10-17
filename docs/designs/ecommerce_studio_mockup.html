@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>电商商品智能工坊 UI 参考原型</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* 模拟真实的柔光棚拍接触阴影与倒影 */
+    .shadow-commercial-podium {
+      filter: drop-shadow(0 18px 12px rgba(0, 0, 0, 0.28)) drop-shadow(0 4px 4px rgba(0, 0, 0, 0.15));
+    }
+    .shadow-soft-ground {
+      box-shadow: 0 25px 20px -15px rgba(0, 0, 0, 0.35);
+    }
+    .reflection-fade {
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 80%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 80%);
+    }
+  </style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-3 sm:p-5">
+
+  <div class="max-w-6xl mx-auto bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-5 shadow-xl space-y-6">
+
+    <!-- 顶部标题与状态栏 -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[var(--border)] gap-3">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🛍️</span>
+          <h2 class="text-xl font-bold tracking-tight text-[var(--foreground)]">电商商品智能工坊 (E-Commerce Studio)</h2>
+          <span class="text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+            全自动商用级
+          </span>
+        </div>
+        <p class="text-xs sm:text-sm text-[var(--muted-foreground)] mt-1">
+          实拍图快速去背 · 物理级真实投影 · 语义卖点提炼 · 淘宝/亚马逊/小红书多平台规格式批量排版
+        </p>
+      </div>
+
+      <!-- 硬件加速状态徽章 -->
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--muted-foreground)] self-start sm:self-auto">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>算力状态: <strong>GTX 1650 DirectML</strong> (极速 34ms 模式)</span>
+      </div>
+    </div>
+
+    <!-- 模式切换：极速商业展台 vs AI 创意融合 -->
+    <div class="flex flex-wrap items-center justify-between bg-[var(--background)] p-1.5 rounded-xl border border-[var(--border)] gap-2">
+      <div class="flex items-center gap-1.5">
+        <button id="mode-a-btn" onclick="switchMode('A')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--card)] text-[var(--foreground)] shadow-sm border border-[var(--border)] flex items-center gap-1.5">
+          <span>⚡</span> 模式 A：极速商业展台 + 物理阴影 (100% 离线 / 4GB 显存推荐)
+        </button>
+        <button id="mode-b-btn" onclick="switchMode('B')" class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center gap-1.5 transition">
+          <span>🎨</span> 模式 B：生成式 AI 创意场景融合 (IC-Light 深度光影)
+        </button>
+      </div>
+      <span class="text-xs text-[var(--muted-foreground)] px-2">💡 模式 A 单张耗时 &lt;0.8秒，绝对不失真</span>
+    </div>
+
+    <!-- 核心两栏交互区 -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- 左侧：输入控制面板 (5 列) -->
+      <div class="lg:col-span-5 space-y-4">
+
+        <!-- 1. 图片上传卡片 -->
+        <div class="border border-dashed border-[var(--border)] rounded-xl p-4 bg-[var(--background)]/60 text-center relative group hover:border-[var(--primary)] transition">
+          <div class="flex items-center justify-center gap-3">
+            <!-- 模拟产品缩略图 (一瓶高级精华液) -->
+            <div class="w-16 h-20 bg-gradient-to-b from-amber-50 to-amber-100 dark:from-neutral-800 dark:to-neutral-900 rounded-lg flex items-center justify-center border border-[var(--border)] relative overflow-hidden shadow-inner">
+              <span class="text-2xl">🧴</span>
+              <span class="absolute bottom-1 text-[10px] text-emerald-600 font-bold bg-white/80 dark:bg-black/80 px-1 rounded">已去背</span>
+            </div>
+            <div class="text-left">
+              <div class="text-xs font-semibold text-[var(--foreground)]">demo_serum_raw.jpg</div>
+              <div class="text-[11px] text-[var(--muted-foreground)]">2400 × 3200 · 手机原相机拍摄</div>
+              <div class="flex gap-1.5 mt-1.5">
+                <span class="text-[10px] bg-sky-500/10 text-sky-500 px-1.5 py-0.5 rounded border border-sky-500/20">BiRefNet 高精提取</span>
+                <span class="text-[10px] bg-amber-500/10 text-amber-500 px-1.5 py-0.5 rounded border border-amber-500/20">Defringe 边缘净化</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-[11px] text-[var(--muted-foreground)] mt-2">支持拖拽多张新商品图批量更新</p>
+        </div>
+
+        <!-- 2. 产品信息与营销文案表单 -->
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-[var(--foreground)] flex items-center gap-1.5">
+              <span>✍️</span> 产品信息与卖点设定
+            </label>
+            <span class="text-[10px] text-sky-500 cursor-pointer hover:underline" onclick="fillExample()">填入护肤品示例</span>
+          </div>
+
+          <div>
+            <span class="text-[11px] text-[var(--muted-foreground)] block mb-1">产品名称 & 类目</span>
+            <input id="prod-name" type="text" value="极光赋活紧致修护精华液" class="w-full text-xs px-3 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <span class="text-[11px] text-[var(--muted-foreground)] block mb-1">核心功效 / 用途</span>
+              <input id="prod-usage" type="text" value="深层补水 · 熬夜暗沉急救" class="w-full text-xs px-3 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none" />
+            </div>
+            <div>
+              <span class="text-[11px] text-[var(--muted-foreground)] block mb-1">目标受众 / 客户</span>
+              <input id="prod-target" type="text" value="25-35岁都市白领 / 熬夜党" class="w-full text-xs px-3 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <span class="text-[11px] text-[var(--muted-foreground)] block mb-1">视觉调性与风格</span>
+            <select class="w-full text-xs px-3 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none">
+              <option>极简纯净 · 晨光大理石展台 (护肤个护推荐)</option>
+              <option>科技质感 · 深灰磨砂金属 (3C数码推荐)</option>
+              <option>自然主义 · 原木水波纹光影 (天然有机推荐)</option>
+              <option>轻奢优雅 · 丝绸香槟暖调 (珠宝美妆推荐)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. 目标平台规格式分发多选 -->
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-2.5">
+          <label class="text-xs font-bold text-[var(--foreground)] flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><span>📐</span> 目标生成平台与规格</span>
+            <span class="text-[11px] text-[var(--muted-foreground)] font-normal">已选 4 项平台</span>
+          </label>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center gap-2 p-2 rounded-lg border border-[var(--border)] bg-[var(--card)] cursor-pointer hover:border-sky-500 transition">
+              <input type="checkbox" checked class="rounded accent-sky-500">
+              <div>
+                <div class="font-medium">淘宝/天猫 1:1</div>
+                <div class="text-[10px] text-[var(--muted-foreground)]">800×800 爆款主图</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2 p-2 rounded-lg border border-[var(--border)] bg-[var(--card)] cursor-pointer hover:border-sky-500 transition">
+              <input type="checkbox" checked class="rounded accent-sky-500">
+              <div>
+                <div class="font-medium">亚马逊 85%</div>
+                <div class="text-[10px] text-[var(--muted-foreground)]">合规白底 + 真实阴影</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2 p-2 rounded-lg border border-[var(--border)] bg-[var(--card)] cursor-pointer hover:border-sky-500 transition">
+              <input type="checkbox" checked class="rounded accent-sky-500">
+              <div>
+                <div class="font-medium">小红书 3:4</div>
+                <div class="text-[10px] text-[var(--muted-foreground)]">种草大片 + 痛点大字</div>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2 p-2 rounded-lg border border-[var(--border)] bg-[var(--card)] cursor-pointer hover:border-sky-500 transition">
+              <input type="checkbox" checked class="rounded accent-sky-500">
+              <div>
+                <div class="font-medium">详情页长图</div>
+                <div class="text-[10px] text-[var(--muted-foreground)]">750px 宽流式排版</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. 阴影与倒影参数微调 -->
+        <div class="flex items-center justify-between text-xs px-2 py-1 text-[var(--muted-foreground)]">
+          <span>地面接触阴影: <strong class="text-[var(--foreground)]">柔光双层</strong></span>
+          <span>镜面轻倒影: <strong class="text-emerald-500">开启 (15%)</strong></span>
+          <span>发丝去溢色: <strong class="text-emerald-500">开启</strong></span>
+        </div>
+
+        <!-- 生成主按钮 -->
+        <button class="w-full py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white shadow-lg shadow-sky-500/20 active:scale-[0.99] transition flex items-center justify-center gap-2">
+          <span>✨</span> 一键全自动生成全套电商资产包
+        </button>
+
+      </div>
+
+      <!-- 右侧：多平台生成效果实时画廊预览 (7 列) -->
+      <div class="lg:col-span-7 bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between space-y-4">
+
+        <!-- 画廊顶部平台筛选 Tab -->
+        <div class="flex items-center justify-between pb-2 border-b border-[var(--border)]">
+          <div class="flex items-center gap-1 text-xs">
+            <button class="px-2.5 py-1 rounded-md font-semibold bg-[var(--card)] text-[var(--foreground)] shadow-sm border border-[var(--border)]">全平台预览</button>
+            <button class="px-2.5 py-1 rounded-md text-[var(--muted-foreground)] hover:text-[var(--foreground)]">淘宝天猫 (1:1)</button>
+            <button class="px-2.5 py-1 rounded-md text-[var(--muted-foreground)] hover:text-[var(--foreground)]">亚马逊 (85%)</button>
+            <button class="px-2.5 py-1 rounded-md text-[var(--muted-foreground)] hover:text-[var(--foreground)]">小红书 (3:4)</button>
+          </div>
+          <span class="text-[11px] text-emerald-500 font-medium">● 4 套规格已生成完成</span>
+        </div>
+
+        <!-- 模拟生成出来的 4 种电商平台规格式图像 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          <!-- 1. 淘宝/天猫 1:1 展台主图 -->
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 flex flex-col justify-between space-y-2 group hover:shadow-md transition">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="font-bold text-[var(--foreground)]">淘宝/天猫 800×800 主图</span>
+              <span class="text-[10px] bg-orange-500/10 text-orange-600 px-1.5 py-0.5 rounded font-medium">1:1 正方展台</span>
+            </div>
+
+            <!-- 渲染效果模拟卡片 (带大理石展台与阴影) -->
+            <div class="w-full aspect-square bg-gradient-to-b from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-950 rounded-lg relative overflow-hidden flex flex-col items-center justify-end p-3 border border-[var(--border)]">
+              <!-- 卖点营销文案角标 -->
+              <div class="absolute top-2 left-2 bg-gradient-to-r from-red-600 to-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                熬夜急救 · 8H 深度锁水
+              </div>
+              <div class="absolute top-2 right-2 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded backdrop-blur-sm">
+                拍1发2
+              </div>
+
+              <!-- 商品主体 + 真实接触阴影 -->
+              <div class="relative z-10 flex flex-col items-center">
+                <div class="text-5xl shadow-commercial-podium select-none transform hover:scale-105 transition">🧴</div>
+                <!-- 真实投影 -->
+                <div class="w-16 h-2 bg-black/40 rounded-full blur-[2px] mt-0.5"></div>
+              </div>
+
+              <!-- 3D 大理石圆形展台 -->
+              <div class="w-36 h-6 bg-gradient-to-r from-neutral-200 via-neutral-100 to-neutral-300 dark:from-neutral-700 dark:via-neutral-600 dark:to-neutral-800 rounded-full shadow-lg border-t border-white/40 -mt-2 z-0"></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-[var(--muted-foreground)] pt-1">
+              <span>大理石圆台 + 爆款营销角标</span>
+              <button class="text-sky-500 hover:underline">下载单图</button>
+            </div>
+          </div>
+
+          <!-- 2. 亚马逊严格 85% 规范白底图 -->
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 flex flex-col justify-between space-y-2 group hover:shadow-md transition">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="font-bold text-[var(--foreground)]">亚马逊 1000×1000 白底</span>
+              <span class="text-[10px] bg-blue-500/10 text-blue-600 px-1.5 py-0.5 rounded font-medium">合规 85% 留白</span>
+            </div>
+
+            <!-- 渲染效果：纯白背景 + 接触阴影 (绝对不悬空) -->
+            <div class="w-full aspect-square bg-white dark:bg-white rounded-lg relative overflow-hidden flex flex-col items-center justify-center p-3 border border-[var(--border)] shadow-inner">
+              <div class="absolute top-2 left-2 text-[10px] font-semibold text-neutral-400">
+                Pure White (RGB 255)
+              </div>
+              <!-- 85% 比例主体 -->
+              <div class="relative flex flex-col items-center justify-center w-full h-[85%]">
+                <div class="text-6xl select-none">🧴</div>
+                <!-- 严苛的亚马逊真实漫反射地面阴影 -->
+                <div class="w-20 h-2.5 bg-black/30 rounded-full blur-[3px] mt-1"></div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-[var(--muted-foreground)] pt-1">
+              <span>严格去除环境色 + 物理级地面暗角</span>
+              <button class="text-sky-500 hover:underline">下载单图</button>
+            </div>
+          </div>
+
+          <!-- 3. 小红书 3:4 种草生活大片 -->
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 flex flex-col justify-between space-y-2 group hover:shadow-md transition">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="font-bold text-[var(--foreground)]">小红书 3:4 种草大片</span>
+              <span class="text-[10px] bg-rose-500/10 text-rose-600 px-1.5 py-0.5 rounded font-medium">3:4 视觉氛围</span>
+            </div>
+
+            <!-- 3:4 比例场景图 -->
+            <div class="w-full aspect-[3/4] bg-gradient-to-br from-rose-50 via-amber-50 to-emerald-50 dark:from-neutral-900 dark:via-stone-900 dark:to-neutral-950 rounded-lg relative overflow-hidden flex flex-col justify-between p-3 border border-[var(--border)]">
+              <!-- 痛点大字文案 -->
+              <div class="space-y-1">
+                <div class="inline-block bg-rose-600 text-white font-extrabold text-[11px] px-2 py-0.5 rounded-sm">
+                  熬夜垮脸救星！
+                </div>
+                <div class="text-xs font-bold text-[var(--foreground)] leading-tight">
+                  实测7天告别暗沉粗糙
+                </div>
+              </div>
+
+              <!-- 水波纹与晨光中的商品 -->
+              <div class="flex flex-col items-center justify-center my-auto">
+                <div class="text-6xl shadow-commercial-podium select-none">🧴</div>
+                <div class="w-20 h-3 bg-neutral-900/25 rounded-full blur-[3px] mt-1"></div>
+              </div>
+
+              <!-- 底部背书标签 -->
+              <div class="flex gap-1 text-[9px] text-[var(--muted-foreground)]">
+                <span class="bg-[var(--card)]/80 px-1.5 py-0.5 rounded border border-[var(--border)]">#敏肌安心用</span>
+                <span class="bg-[var(--card)]/80 px-1.5 py-0.5 rounded border border-[var(--border)]">#法式天然</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-[var(--muted-foreground)] pt-1">
+              <span>晨光水雾氛围 + 社交痛点大字</span>
+              <button class="text-sky-500 hover:underline">下载单图</button>
+            </div>
+          </div>
+
+          <!-- 4. 详情页核心卖点长条 -->
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 flex flex-col justify-between space-y-2 group hover:shadow-md transition">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="font-bold text-[var(--foreground)]">详情页卖点长条 (750px)</span>
+              <span class="text-[10px] bg-purple-500/10 text-purple-600 px-1.5 py-0.5 rounded font-medium">叙事结构图</span>
+            </div>
+
+            <!-- 详情页模块化拼图 -->
+            <div class="w-full aspect-[3/4] bg-[var(--background)] rounded-lg p-2.5 border border-[var(--border)] flex flex-col justify-between text-[11px]">
+              <div class="text-center font-bold pb-1 border-b border-[var(--border)] text-[var(--foreground)]">
+                三维立体透皮吸收系统
+              </div>
+
+              <div class="flex items-center justify-around py-2">
+                <div class="text-4xl">🧴</div>
+                <div class="space-y-1 text-[10px]">
+                  <div class="text-emerald-600 font-semibold">✔ 5D 玻尿酸小分子</div>
+                  <div class="text-emerald-600 font-semibold">✔ 依克多因修护因子</div>
+                  <div class="text-emerald-600 font-semibold">✔ 0 酒精 0 色素 0 防腐</div>
+                </div>
+              </div>
+
+              <div class="bg-[var(--card)] p-1.5 rounded border border-[var(--border)] text-[10px] text-[var(--muted-foreground)] text-center">
+                权威皮肤科临床测试验证：锁水力 +186%
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-[var(--muted-foreground)] pt-1">
+              <span>产品微距成分分解模块</span>
+              <button class="text-sky-500 hover:underline">下载单图</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 底部全局操作栏 -->
+        <div class="pt-3 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="text-xs text-[var(--muted-foreground)]">
+            已生成 <strong>4</strong> 张多平台规范图 · 总耗时 <strong>0.92 秒</strong> · 100% 原始细节保真
+          </div>
+          <div class="flex gap-2 w-full sm:w-auto">
+            <button class="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)] shadow hover:opacity-90 transition flex items-center justify-center gap-1.5">
+              <span>📦</span> 一键打包导出全套图包 (.zip)
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function switchMode(mode) {
+      const btnA = document.getElementById('mode-a-btn');
+      const btnB = document.getElementById('mode-b-btn');
+      if (mode === 'A') {
+        btnA.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--card)] text-[var(--foreground)] shadow-sm border border-[var(--border)] flex items-center gap-1.5";
+        btnB.className = "px-3.5 py-1.5 rounded-lg text-xs font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center gap-1.5 transition";
+      } else {
+        btnB.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--card)] text-[var(--foreground)] shadow-sm border border-[var(--border)] flex items-center gap-1.5";
+        btnA.className = "px-3.5 py-1.5 rounded-lg text-xs font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center gap-1.5 transition";
+      }
+    }
+
+    function fillExample() {
+      document.getElementById('prod-name').value = "极光赋活紧致修护精华液";
+      document.getElementById('prod-usage').value = "深层补水 · 熬夜暗沉急救";
+      document.getElementById('prod-target').value = "25-35岁都市白领 / 熬夜党";
+    }
+  </script>
+</body>
+</html>

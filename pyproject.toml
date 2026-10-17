@@ -1,0 +1,24 @@
+[project]
+name = "matting-studio"
+version = "0.1.0"
+description = "High-precision local offline image matting and background removal tool"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24.0",
+    "pillow>=10.0.0",
+    "opencv-python-headless>=4.8.0",
+    "onnxruntime>=1.16.0",
+    "onnxruntime-directml>=1.16.0; sys_platform == 'win32'",
+    "rembg>=2.0.50",
+    "gradio>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
